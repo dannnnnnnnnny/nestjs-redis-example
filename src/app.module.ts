@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppConsumer } from './app.consumer';
 
 @Module({
   imports: [
@@ -10,9 +11,12 @@ import { AppService } from './app.service';
         host: 'localhost',
         port: 6379
       }
-    })
+    }),
+    BullModule.registerQueue({
+      name: 'testQueue',
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppConsumer],
 })
 export class AppModule {}
